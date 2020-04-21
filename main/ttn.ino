@@ -159,7 +159,6 @@ void ttn_join() {
         LMIC_setSession(0x1, DEVADDR, nwkskey, appskey);
 
         #if defined(CFG_eu868)
-
             // Set up the channels used by the Things Network, which corresponds
             // to the defaults of most gateways. Without this, only three base
             // channels from the LoRaWAN specification are used, which certainly

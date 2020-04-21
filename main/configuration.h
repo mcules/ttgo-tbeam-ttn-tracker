@@ -40,8 +40,12 @@ void ttn_register(void (*callback)(uint8_t message));
 // -----------------------------------------------------------------------------
 
 // Select which T-Beam board is being used. Only uncomment one.
-#define T_BEAM_V07  // AKA Rev0 (first board released)
-//#define T_BEAM_V10  // AKA Rev1 (second board released)
+//#define T_BEAM_V07  // AKA Rev0 (first board released)
+#define T_BEAM_V10  // AKA Rev1 (second board released)
+
+// Select which Display do you have. Only uncomment one if available.
+#define SH1106
+//#define SSD1036
 
 // Select the payload format. Change on TTN as well. Only uncomment one.
 #define PAYLOAD_USE_FULL
@@ -71,7 +75,8 @@ void ttn_register(void (*callback)(uint8_t message));
 // -----------------------------------------------------------------------------
 
 #ifdef DEBUG_PORT
-#define DEBUG_MSG(...) DEBUG_PORT.printf( __VA_ARGS__ )
+//#define DEBUG_MSG(...) DEBUG_PORT.printf( __VA_ARGS__ )
+#define DEBUG_MSG(...) Serial.printf( __VA_ARGS__ )
 #else
 #define DEBUG_MSG(...)
 #endif
@@ -103,7 +108,9 @@ void ttn_register(void (*callback)(uint8_t message));
 // OLED
 // -----------------------------------------------------------------------------
 
-#define SSD1306_ADDRESS 0x3C
+#if defined(SH1106) || defined(SSD1306)
+  #define DISPLAY_ADDRESS 0x3C
+#endif
 
 // -----------------------------------------------------------------------------
 // GPS

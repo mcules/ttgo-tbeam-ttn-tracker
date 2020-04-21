@@ -21,14 +21,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <Wire.h>
-#include "SSD1306Wire.h"
+
+#if defined(SH1106)
+  #include "SH1106Wire.h"
+#elif defined(SSD1306)
+  #include "SSD1306Wire.h"
+#endif
+
+//#include "SSD1306Wire.h"
+//#include "SH1106Wire.h"
 #include "OLEDDisplay.h"
 #include "images.h"
 #include "fonts.h"
 
-#define SCREEN_HEADER_HEIGHT    14
+#define SCREEN_HEADER_HEIGHT    13
 
-SSD1306Wire * display;
+#if defined(SH1106)
+  SH1106Wire * display;
+#elif defined(SSD1306)
+  SSD1306Wire * display;
+#endif
+
 uint8_t _screen_line = SCREEN_HEADER_HEIGHT - 1;
 
 void _screen_header() {
@@ -99,7 +112,11 @@ void screen_update() {
 
 void screen_setup() {
     // Display instance
-    display = new SSD1306Wire(SSD1306_ADDRESS, I2C_SDA, I2C_SCL);
+    #if defined(SH1106)
+      display = new SH1106Wire(DISPLAY_ADDRESS, I2C_SDA, I2C_SCL);
+    #elif defined(SSD1306)
+      display = new SSD1306Wire(DISPLAY_ADDRESS, I2C_SDA, I2C_SCL);
+    #endif
     display->init();
     display->flipScreenVertically();
     display->setFont(Custom_ArialMT_Plain_10);

@@ -151,7 +151,7 @@ void scanI2Cdevice(void)
             Serial.println(" !");
             nDevices++;
 
-            if (addr == SSD1306_ADDRESS) {
+            if (addr == DISPLAY_ADDRESS) {
                 ssd1306_found = true;
                 Serial.println("ssd1306 display found");
             }
@@ -197,6 +197,11 @@ void setup() {
       Serial.printf("LDO3: %s\n", axp.isLDO3Enable() ? "ENABLE" : "DISABLE");
       Serial.printf("DCDC3: %s\n", axp.isDCDC3Enable() ? "ENABLE" : "DISABLE");
       Serial.printf("Exten: %s\n", axp.isExtenEnable() ? "ENABLE" : "DISABLE");
+      #ifdef CFG_eu868
+        Serial.println("Band: eu868");
+      #elif CFG_us915
+        Serial.println("Band: us915");
+      #endif
       Serial.println("----------------------------------------");
 
       axp.setPowerOutPut(AXP192_LDO2, AXP202_ON);
